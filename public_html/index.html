@@ -96,12 +96,13 @@
                                         </div>
                                     </div>
                                 </div>
+                            </fieldset>
                                 <div class="form-row">
                                     <div class="col">
-                                        <p><button class="btn btn-success btn-block" id="calculate">Go</button></p>    
+                                        <p><button class="btn btn-success btn-block" id="calculate" disabled>Go</button></p>    
                                     </div>
                                 </div>
-                            </fieldset>
+                            
                         </form>
                     </div>
                     <div class="card-footer">
@@ -198,6 +199,10 @@
                 }
 
                 $('#fields').prop('disabled', false);
+            });
+
+            $('#darkRoi').change(function() {
+                $('#calculate').prop('disabled', false);
             });
 
             $('#calculate').click(function() {
