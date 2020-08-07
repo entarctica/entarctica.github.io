@@ -120,7 +120,8 @@
                     <div class="row">
                         <div class="card-body">
                             <span>
-                                <p id='note'>Starting Calibration</p>
+
+                                <p id='note'><span id='panelSelection'></span>Starting Calibration</p>
                             </span>
                         </div>
                     </div>
@@ -188,8 +189,8 @@
                     panel.max = 0;
                     break;
                 }
-
-                $("#note").prepend(panelText + " (Goal: " + panel.min + "-" + panel.max + ")" + "<br/>");
+                $('#panelSelection').after("<br/>");
+                $('#panelSelection').text(panelText + " (Goal: " + panel.min + "-" + panel.max + ")");
                 if (panelValue == '_4343RC' || panelValue == '_4343RV3')
                 {
                     noOffset = true;
