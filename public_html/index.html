@@ -119,10 +119,8 @@
                     </div>
                     <div class="row">
                         <div class="card-body">
-                            <span id='note'>
-                                <p id='currentPanel'></p>
-                                <p>Starting Calibration</p>
-                                <p id="noteDark"></p>
+                            <span>
+                                <p id='note'>Starting Calibration</p>
                             </span>
                         </div>
                     </div>
@@ -141,6 +139,7 @@
             var panel = {min: 0, max: 0};
             var panelValue = "";
             var noOffset = false;
+            var done = false;
 
             $('#panelDropdown a').click(function() {
                 panelValue = $(this).attr("id");
@@ -190,7 +189,7 @@
                     break;
                 }
 
-                $("#currentPanel").text(panelText + " (Goal: " + panel.min + "-" + panel.max + ")");
+                $("#note").prepend(panelText + " (Goal: " + panel.min + "-" + panel.max + ")" + "<br/>");
                 if (panelValue == '_4343RC' || panelValue == '_4343RV3')
                 {
                     noOffset = true;
@@ -211,6 +210,7 @@
                 var result = "";
                 var adjustedGain = 0;
                 var adjustBy = 0;
+                var inRange = false;
 
                 if (noOffset)
                 {
@@ -230,29 +230,44 @@
                     adjustBy = panel.min - adjustedGain;
                     result = "Too Low! Increase ROI by " + adjustBy;
                 }
-                else if (adjustedGain < panel.max & adjustedGain > panel.min)
+                else if (adjustedGain <= panel.max & adjustedGain >= panel.min)
                 {
                     result = "In Range!";
+                    inRange = true;
+                    done = true;
                 }
                 else
                 {
                     result = "Couldn't Calculate!";
                 }
-                $('#resultText').text(result);
-                $('#noteDark').text("Dark ROI: " + $('#darkRoi').val())
-                $('#note').append(
-                        "<p>"
-                    +       "**"
-                    +       $('#kvp').val() + "kvp" + " "
-                    +       $('#mas').val() + "mas"
-                    +   "</p>"
-                    +       "Bright: " + $('#brightRoi').val()
-                    +   "</p>"
-                    +   "<p id='diff'>"
-                    +       "Difference: " + adjustedGain
-                    +   "</p>"
 
-                );
+                $('#resultText').text(result);
+
+                if (!$('#darkNote').length)
+                {
+                    $('#note').prepend("<span id='darkNote'>" + "Dark ROI: " + $('#darkRoi').val() + "<br/>" + "</span>");    
+                }
+
+                if (inRange & !done)
+                {
+                    $('#note').append(
+                            "<br/>"
+                        +   "  - " + $('#kvp').val() + "kvp" + " "
+                        +   $('#mas').val() + "mas"
+                        +   "<br/>"
+                        +   "  - " + "Bright: " + $('#brightRoi').val()
+                        +   "<br/>"
+                        +   "<span id='diff'>"
+                        +   "  - " + "Difference: " + adjustedGain + " (In Range)"
+                        +   "</span>"
+                        +   "<br/>"
+
+                    );
+                    $('#calculate').prop('disabled', true);
+                }
+
+
+                    
             });
 
             function isNumberKey(evt){
