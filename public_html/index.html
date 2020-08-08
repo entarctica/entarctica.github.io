@@ -201,7 +201,7 @@
                 $('#fields').prop('disabled', false);
             });
 
-            $('#darkRoi').change(function() {
+            $('#fields').change(function() {
                 $('#calculate').prop('disabled', false);
             });
 
@@ -264,7 +264,9 @@
 
                     );
                     $('#calculate').prop('disabled', true);
+                    $('#fields').prop('disabled', true);
                     done = true;
+
                 }
 
 
