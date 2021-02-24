@@ -1,0 +1,309 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+        <style>
+            body
+            {
+                padding:50px;
+            }
+        </style>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        Calibration
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle btn-block" type="button" id="panels" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Select a Panel
+                                    </button>
+                                    <div class="dropdown-menu" id="panelDropdown" aria-labelledby="panels">
+                                        <a class="dropdown-item" id="_4030E" href="#">4030E</a>
+                                        <a class="dropdown-item" id="_4343R" href="#">4343R</a>
+                                        <a class="dropdown-item" id="_4336R" href="#">4336R</a>
+                                        <a class="dropdown-item" id="_4343RV55" href="#">4343R V55</a>
+                                        <a class="dropdown-item" id="_4336RV55" href="#">4336R V55</a>
+                                        <a class="dropdown-item" id="_4343RV2" href="#">4343R V2</a>
+                                        <a class="dropdown-item" id="_4343RC" href="#">4343RC</a>
+                                        <a class="dropdown-item" id="_4343RV3" href="#">4343R V3</a>
+                                        <a class="dropdown-item" id="_4336RV2" href="#">4336R V2</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>        
+                    </div>
+                    <div class="card-body">
+                        <form> 
+                            <fieldset id='fields' disabled>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="kvpLabel">KVP</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="kvp" onkeypress="return isNumberKey(event)">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="kvpLabel">MAS</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="mas" onkeypress="return isNumberKey(event)">
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="darkRoiLabel">Dark ROI</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="darkRoi" onkeypress="return isNumberKey(event)">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="brightRoiLabel">Bright ROI</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="brightRoi" onkeypress="return isNumberKey(event)">
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <p><button class="btn btn-success btn-block" id="calculate" disabled>Go</button></p>    
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <p><button class="btn btn-danger btn-block" id="clear">Start Over</button></p>    
+                                    </div>
+                                </div>
+                            
+                        </form>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <p id="resultText"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        Case Note
+                    </div>
+                    <div class="row">
+                        <div class="card-body">
+                            <span>
+                                <p id='note'>Starting Calibration<span id='panelSelection'></span></p>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+        </div>
+        
+
+    </div>
+ <!-- /container -->       
+        
+
+        <script src="js/main.js"></script>
+        <script type="text/javascript">
+            var panel = {min: 0, max: 0};
+            var panelValue = "";
+            var noOffset = false;
+            var done = false;
+            var hasSession = false;
+
+
+            $('#panelDropdown a').click(function() {
+                panelValue = $(this).attr("id");
+                panelText = $(this).text();
+
+                switch(panelValue)
+                {
+                    case "_4030E": 
+                        panel.min = 2200;
+                        panel.max = 2600;
+                        break;
+                    case "_4343R":
+                        panel.min = 6000;
+                        panel.max = 8000;
+                        break;
+                    case "_4336R":
+                        panel.min = 6000;
+                        panel.max = 8000;
+                        break;
+                    case "_4343RV55":
+                        panel.min = 2000;
+                        panel.max = 3000;
+                        break;
+                    case "_4336RV55":
+                        panel.min = 6000;
+                        panel.max = 8000;
+                        break;
+                    case "_4343RV2":
+                        panel.min = 10000;
+                        panel.max = 15000;
+                        break;
+                    case "_4343RC":
+                        panel.min = 10000;
+                        panel.max = 15000;
+                        break;
+                    case "_4343RV3":
+                        panel.min = 10000;
+                        panel.max = 15000;
+                        break;
+                    case "_4336RV2":
+                        panel.min = 1500;
+                        panel.max = 2500;
+                        break;
+                    default:
+                    panel.min = 0;
+                    panel.max = 0;
+                    break;
+                }
+                $('#panelSelection').html("<br/>" + panelText + " (Goal: " + panel.min + "-" + panel.max + ")");
+
+
+                if (panelValue == '_4343RC' || panelValue == '_4343RV3')
+                {
+                    noOffset = true;
+                    $('diff').hide();
+
+                }
+
+                $('#fields').prop('disabled', false);
+            });
+
+            $('#fields').change(function() {
+                $('#calculate').prop('disabled', false);
+            });
+
+            $('#calculate').click(function() {
+                var resultBefore = "<p>";
+                var resultAfter = "</p>";
+                var result = "";
+                var adjustedGain = 0;
+                var adjustBy = 0;
+                var inRange = false;
+
+                if (noOffset)
+                {
+                    adjustedGain = $('#brightRoi').val();
+                } else 
+                {
+                    adjustedGain = $('#brightRoi').val() - $('#darkRoi').val();
+                }
+
+                if (adjustedGain > panel.max)
+                {
+                    adjustBy = adjustedGain - panel.max;
+                    result = "Too high! Drop ROI by " + adjustBy;
+                }
+                else if (adjustedGain < panel.min)
+                {
+                    adjustBy = panel.min - adjustedGain;
+                    result = "Too Low! Increase ROI by " + adjustBy;
+                }
+                else if (adjustedGain <= panel.max & adjustedGain >= panel.min)
+                {
+                    result = "In Range!";
+                    inRange = true;
+                }
+                else
+                {
+                    result = "Couldn't Calculate!";
+                }
+
+                $('#resultText').text(result);
+
+                if (!$('#darkNote').length)
+                {
+                    $('#note').prepend("<span id='darkNote'>" + "Dark ROI: " + $('#darkRoi').val() + "<br/>" + "</span>");    
+                }
+
+                if (inRange & !done)
+                {
+                    $('#note').append(
+                            "  - " + $('#kvp').val() + "kvp" + " "
+                        +   $('#mas').val() + "mas"
+                        +   "<br/>"
+                        +   "  - " + "Bright: " + $('#brightRoi').val()
+                        +   "<br/>"
+                        +   "<span id='diff'>"
+                        +   "  - " + "Difference: " + adjustedGain + " (In Range)"
+                        +   "</span>"
+                        +   "<br/>"
+
+                    );
+                    $('#calculate').prop('disabled', true);
+                    $('#fields').prop('disabled', true);
+                    done = true;
+
+                    // Save all to localstorage
+                    hasSession = true;
+                    localStorage.Note = $('#note').html();
+                }                    
+            });
+
+            $('#clear').click(function() {
+                $('input[type=text]').val("");
+                $('#note').html("<span id='panelSelection'></span>Starting Calibration");
+                $('#fields').prop('disabled', true);
+                $('#resultText').prop('disabled', true);
+                done = false;
+            })
+
+            function isNumberKey(evt){
+                var charCode = (evt.which) ? evt.which : evt.keyCode
+                if (charCode > 31 && (charCode != 46 &&(charCode < 48 || charCode > 57)))
+                    return false;
+                return true;
+            }
+
+        </script>
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X','auto');ga('send','pageview');
+        </script>
+    </body>
+</html>
