@@ -105,6 +105,60 @@
                                 </div>
                             
                         </form>
+                        <form>
+                        	<fieldset id='medians' hidden>
+                        		<div class="form-row">
+                        			<div class="col">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="oldGmLabel">Old Gain</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="oldGm" onkeypress="return isNumberKey(event)">
+                                        </div>
+                        			</div>
+                        			<div class="col">
+                        				<div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="oldGmLabel">Old Offset</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="oldOm" onkeypress="return isNumberKey(event)">
+                                        </div>
+                        			</div>
+                        			<div class="col">
+                        				<div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="oldDateLabel">Old Date</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="oldDate">
+                                        </div>
+                        			</div>
+                        		</div>
+                        		<div class="form-row">
+                        			<div class="col">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="oldGmLabel">New Gain</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="newGm" onkeypress="return isNumberKey(event)">
+                                        </div>
+                        			</div>
+                        			<div class="col">
+                        				<div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="oldGmLabel">New Offset</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="newOm" onkeypress="return isNumberKey(event)">
+                                        </div>
+                        			</div>
+                        		</div>
+	                        	<div class="form-row">
+                                    <div class="col">
+                                        <p><button class="btn btn-success btn-block" id="calculate2" disabled>Go</button></p>    
+                                    </div>
+                            	</div>
+                        	</fieldset>
+
+                        </form>
                     </div>
                     <div class="card-footer">
                         <div class="row">
@@ -122,7 +176,7 @@
                         <div class="card-body">
                             <span>
 
-                                <p id='note'><span id='panelSelection'></span>Starting Calibration</p>
+                                <span id='panelSelection'></span><p id='note'>Starting Calibration</p>
                             </span>
                         </div>
                     </div>
@@ -234,7 +288,7 @@
                 }
                 else if (adjustedGain <= panel.max & adjustedGain >= panel.min)
                 {
-                    result = "In Range!";
+                    result = "Preliminary check is In Range!";
                     inRange = true;
                 }
                 else
@@ -266,12 +320,54 @@
                     );
                     $('#calculate').prop('disabled', true);
                     $('#fields').prop('disabled', true);
+                    $('#calculate2').prop('disabled', false);
+                    $('#medians').prop('hidden', false);
                     done = true;
-
                 }
 
 
                     
+            });
+            $('#calculate2').click(function() {
+            	var adjustBy = 0;
+            	var gain = $('#newGm').val();
+            	var inRange = false;
+            	var result = "";
+
+        		if (gain > panel.max)
+        		{
+        			adjustBy = gain - panel.max;
+        			result = "Too high! Drop Gain Median by " + adjustBy;
+    				softReset();
+        		}
+        		else if (gain < panel.min)
+        		{
+        			adjustBy = panel.min - gain;
+        			result = "Too low! Increase Gain Median by " + adjustBy;
+        			softReset();
+        		}
+        		else if (gain <= panel.max & gain >= panel.min)
+        		{
+        			result = "Gain median is in range!"
+        			inRange = true;
+        		}
+        		if (inRange)
+        		{
+	            	$('#note').append(
+	            			"  - " + "Old GM: " + $('#oldGm').val()
+	            		+   "<br/>"
+	            		+	"  - " + "Old OM: " + $('#oldOm').val()
+	            		+   "<br/>"
+	            		+	"  - " + "Old Date: " + $('#oldDate').val()
+	            		+   "<br/>"
+	            		+	"  - " + "New GM: " + $('#newGm').val() + " (In range)"
+	            		+   "<br/>"
+	            		+	"  - " + "New OM: " + $('#newOm').val()
+	            		+   "<br/>"
+	            	);
+	            	$('#calculate2').prop('disabled', true);
+        		}
+        		$('#resultText').text(result);
             });
 
             function isNumberKey(evt){
@@ -279,6 +375,17 @@
                 if (charCode > 31 && (charCode != 46 &&(charCode < 48 || charCode > 57)))
                     return false;
                 return true;
+            }
+
+            function softReset(){
+            	$('#newGm').val("");
+            	$('#newOm').val("");
+            	$('#brightRoi').val("");
+            	$('#fields').prop('disabled', false);
+            	$('#calculate').prop('disabled', false);
+            	$('#medians').prop('hidden', true);
+            	$('#note').text("Starting Calibration");
+            	done = false;
             }
 
         </script>
