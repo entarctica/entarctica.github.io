@@ -102,11 +102,6 @@
                                         <p><button class="btn btn-success btn-block" id="calculate" disabled>Go</button></p>    
                                     </div>
                                 </div>
-                                <div class="form-row">
-                                    <div class="col">
-                                        <p><button class="btn btn-danger btn-block" id="clear">Start Over</button></p>    
-                                    </div>
-                                </div>
                             
                         </form>
                     </div>
@@ -125,7 +120,8 @@
                     <div class="row">
                         <div class="card-body">
                             <span>
-                                <p id='note'>Starting Calibration<span id='panelSelection'></span></p>
+
+                                <p id='note'><span id='panelSelection'></span>Starting Calibration</p>
                             </span>
                         </div>
                     </div>
@@ -145,8 +141,6 @@
             var panelValue = "";
             var noOffset = false;
             var done = false;
-            var hasSession = false;
-
 
             $('#panelDropdown a').click(function() {
                 panelValue = $(this).attr("id");
@@ -195,9 +189,8 @@
                     panel.max = 0;
                     break;
                 }
-                $('#panelSelection').html("<br/>" + panelText + " (Goal: " + panel.min + "-" + panel.max + ")");
-
-
+                $('#panelSelection').after("<br/>");
+                $('#panelSelection').text(panelText + " (Goal: " + panel.min + "-" + panel.max + ")");
                 if (panelValue == '_4343RC' || panelValue == '_4343RV3')
                 {
                     noOffset = true;
@@ -258,7 +251,8 @@
                 if (inRange & !done)
                 {
                     $('#note').append(
-                            "  - " + $('#kvp').val() + "kvp" + " "
+                            "<br/>"
+                        +   "  - " + $('#kvp').val() + "kvp" + " "
                         +   $('#mas').val() + "mas"
                         +   "<br/>"
                         +   "  - " + "Bright: " + $('#brightRoi').val()
@@ -273,19 +267,11 @@
                     $('#fields').prop('disabled', true);
                     done = true;
 
-                    // Save all to localstorage
-                    hasSession = true;
-                    localStorage.Note = $('#note').html();
-                }                    
-            });
+                }
 
-            $('#clear').click(function() {
-                $('input[type=text]').val("");
-                $('#note').html("<span id='panelSelection'></span>Starting Calibration");
-                $('#fields').prop('disabled', true);
-                $('#resultText').prop('disabled', true);
-                done = false;
-            })
+
+                    
+            });
 
             function isNumberKey(evt){
                 var charCode = (evt.which) ? evt.which : evt.keyCode
