@@ -260,6 +260,7 @@
             });
 
             $('#calculate').click(function() {
+                event.preventDefault();
                 var resultBefore = "<p>";
                 var resultAfter = "</p>";
                 var result = "";
@@ -325,9 +326,9 @@
                 }
 
 
-                    
             });
             $('#calculate2').click(function() {
+                event.preventDefault();
             	var adjustBy = 0;
             	var gain = $('#newGm').val();
             	var inRange = false;
